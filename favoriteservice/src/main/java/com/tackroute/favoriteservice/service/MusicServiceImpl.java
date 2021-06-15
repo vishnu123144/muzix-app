@@ -2,7 +2,7 @@ package com.tackroute.favoriteservice.service;
 
 import com.tackroute.favoriteservice.exception.FavoriteAlreadyExistException;
 import com.tackroute.favoriteservice.exception.FavoriteDoesNotExistException;
-import com.tackroute.favoriteservice.exception.FavoriteListDoesNotExist;
+import com.tackroute.favoriteservice.exception.FavoriteListDoesNotExistException;
 import com.tackroute.favoriteservice.model.Favorite;
 import com.tackroute.favoriteservice.model.Song;
 import com.tackroute.favoriteservice.repository.MusicRepository;
@@ -44,7 +44,7 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public List<Song> getFavoriteMusic(String email) throws FavoriteListDoesNotExist {
+    public List<Song> getFavoriteMusic(String email) throws FavoriteListDoesNotExistException {
         return null;
     }
 
