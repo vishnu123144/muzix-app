@@ -40,6 +40,12 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public Favorite removeFromFavorite(String email, String songTitle) throws FavoriteDoesNotExistException {
+        Optional<Favorite> favoriteResult=musicRepository.findById(email);
+        if(favoriteResult.isPresent())
+        {
+            
+        }
+
         return null;
     }
 

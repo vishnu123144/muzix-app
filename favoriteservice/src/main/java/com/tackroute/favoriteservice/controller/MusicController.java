@@ -1,6 +1,7 @@
 package com.tackroute.favoriteservice.controller;
 
 import com.tackroute.favoriteservice.exception.FavoriteAlreadyExistException;
+import com.tackroute.favoriteservice.exception.FavoriteDoesNotExistException;
 import com.tackroute.favoriteservice.model.Favorite;
 import com.tackroute.favoriteservice.model.Song;
 import com.tackroute.favoriteservice.service.MusicService;
@@ -31,6 +32,22 @@ public class MusicController {
             return new ResponseEntity<String>("Song already exists.", HttpStatus.CONFLICT);
         }
     }
+
+    @DeleteMapping("/deletesong")
+    public ResponseEntity<?> deleteFromFavorites(String email,String songTitle)
+    {
+        try
+        {
+            Favorite response=musicService.removeFromFavorite(email,songTitle);
+            return new ResponseEntity<String>("Song Deleted Successfully.",HttpStatus.OK);
+        }
+        catch (FavoriteDoesNotExistException exception)
+        {
+            return new ResponseEntity<String>("Song does not found in favorite",HttpStatus.CONFLICT);
+        }
+    }
+
+
     @GetMapping("/welcome")
     public String welcome()
     {
