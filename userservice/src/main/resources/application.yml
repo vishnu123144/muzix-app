@@ -1,0 +1,13 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: userService
+  dataSource:
+    url: jdbc:mysql://localhost:3306/registerdetails
+    username: root
+    password: root
+    jpa:
+      hibernate:
+        ddl-auto: update
+      show_sql: true
