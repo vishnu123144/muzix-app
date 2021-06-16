@@ -2,6 +2,7 @@ package com.tackroute.favoriteservice.controller;
 
 import com.tackroute.favoriteservice.exception.FavoriteAlreadyExistException;
 import com.tackroute.favoriteservice.exception.FavoriteDoesNotExistException;
+import com.tackroute.favoriteservice.exception.FavoriteListDoesNotExistException;
 import com.tackroute.favoriteservice.model.Favorite;
 import com.tackroute.favoriteservice.model.Song;
 import com.tackroute.favoriteservice.service.MusicService;
@@ -34,23 +35,28 @@ public class MusicController {
     }
 
     @DeleteMapping("/deletesong")
-    public ResponseEntity<?> deleteFromFavorites(String email,String songTitle)
-    {
-        try
-        {
-            Favorite response=musicService.removeFromFavorite(email,songTitle);
-            return new ResponseEntity<String>("Song Deleted Successfully.",HttpStatus.OK);
+    public ResponseEntity<?> deleteFromFavorites(String email, String songTitle) {
+        try {
+            Favorite response = musicService.removeFromFavorite(email, songTitle);
+            return new ResponseEntity<String>("Song Deleted Successfully.", HttpStatus.OK);
+        } catch (FavoriteDoesNotExistException exception) {
+            return new ResponseEntity<String>("Song does not found in favorite", HttpStatus.CONFLICT);
         }
-        catch (FavoriteDoesNotExistException exception)
-        {
-            return new ResponseEntity<String>("Song does not found in favorite",HttpStatus.CONFLICT);
+    }
+
+    @GetMapping("/favoritelist")
+    public ResponseEntity<?> getAllFavorites(String email) {
+        try {
+            List<Song> response = musicService.getFavoriteMusic(email);
+            return new ResponseEntity<List<Song>>(response, HttpStatus.OK);
+        } catch (FavoriteListDoesNotExistException exception) {
+            return new ResponseEntity<String>("Songs are not found in favoriteList", HttpStatus.CONFLICT);
         }
     }
 
 
     @GetMapping("/welcome")
-    public String welcome()
-    {
+    public String welcome() {
         return "welcome";
     }
 
