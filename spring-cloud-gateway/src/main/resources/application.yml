@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: spring-cloud-gateway
+server:
+  port: 8088
+eureka:
+  client:
+   register-with-eureka: true
+   fetch-registry: true

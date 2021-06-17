@@ -1,11 +1,11 @@
-package com.stackroute.searchservice;
+package com.stackroute.userservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SearchserviceApplicationTests {
-
+class UserserviceApplicationTests {
+//
 //	@Test
 //	void contextLoads() {
 //	}
