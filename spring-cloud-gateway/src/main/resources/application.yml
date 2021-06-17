@@ -1,28 +1,9 @@
 spring:
   application:
     name: spring-cloud-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: searchservice
-          uri: lb://search-service
-          predicates:
-            - Path=/search-service/**
-#        - id: user-service
-#          uri: lb://USER-SERVICE/
-#          predicates:
-#           - Path=/user/**
-#        - id: favorite-service
-#          uri: lb://FAVORITE-SERVICE/
-#          predicates:
-#           - Path=/favorite/**
 server:
   port: 8088
 eureka:
   client:
    register-with-eureka: true
    fetch-registry: true
-   serviceUrl:
-     defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    hostname: localhost

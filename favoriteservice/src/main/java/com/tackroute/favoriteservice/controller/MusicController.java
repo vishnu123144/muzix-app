@@ -1,20 +1,15 @@
 package com.tackroute.favoriteservice.controller;
 
 import com.tackroute.favoriteservice.exception.FavoriteAlreadyExistException;
-import com.tackroute.favoriteservice.exception.FavoriteDoesNotExistException;
-import com.tackroute.favoriteservice.exception.FavoriteListDoesNotExistException;
 import com.tackroute.favoriteservice.model.Favorite;
-import com.tackroute.favoriteservice.model.Song;
 import com.tackroute.favoriteservice.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 public class MusicController {
     private MusicService musicService;
 
@@ -23,8 +18,12 @@ public class MusicController {
         this.musicService = musicService;
     }
 
+    @GetMapping("welcome")
+    public String welcome() {
+        return "welcome";
+    }
 
-    @PostMapping("/addsong")
+    @PostMapping("addsong")
     public ResponseEntity<?> addToFavorites(@RequestBody Favorite favorite) {
         try {
             Favorite response = musicService.addToFavorite(favorite);
@@ -34,59 +33,19 @@ public class MusicController {
         }
     }
 
-    @DeleteMapping("/deletesong")
-    public ResponseEntity<?> deleteFromFavorites(String email, String songTitle) {
-        try {
-            Favorite response = musicService.removeFromFavorite(email, songTitle);
-            return new ResponseEntity<String>("Song Deleted Successfully.", HttpStatus.OK);
-        } catch (FavoriteDoesNotExistException exception) {
-            return new ResponseEntity<String>("Song does not found in favorite", HttpStatus.CONFLICT);
-        }
+    @GetMapping("favourite/{email}/getAllFavourites")
+    public ResponseEntity<?> getAllFavourites(@PathVariable String email) {
+        return new ResponseEntity<>(this.musicService.getAllFavorites(email), HttpStatus.OK);
     }
 
-    @GetMapping("/favoritelist")
-    public ResponseEntity<?> getAllFavorites(String email) {
-        try {
-            List<Song> response = musicService.getFavoriteMusic(email);
-            return new ResponseEntity<List<Song>>(response, HttpStatus.OK);
-        } catch (FavoriteListDoesNotExistException exception) {
-            return new ResponseEntity<String>("Songs are not found in favoriteList", HttpStatus.CONFLICT);
-        }
+    @DeleteMapping("favourite/{email}/deleteFromFavourite/{favId}")
+    public void deleteFromFavourite(@PathVariable("email") String email, @PathVariable String favId) {
+        musicService.deleteFavouriteByFavouriteId(email, favId);
     }
 
-
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "welcome";
+    @PostMapping("{email}/createFavouriteList")
+    public ResponseEntity<?> createFavouriteList(@PathVariable("email") String email, @RequestBody Favorite user) {
+        return new ResponseEntity<>(this.musicService.createFavoriteList(email, user), HttpStatus.CREATED);
     }
-
- /*   @PostMapping("/saveSong")
-    public String saveMusic(@RequestBody Song song) {
-        Song songSaved = musicService.saveMusic(song);
-        if (songSaved != null) {
-            return "details Saved Successfully";
-        } else {
-            return "Details Not saved";
-        }
-    }*/
-
-
-/*    @GetMapping("/getAllSongs")
-    public List<Song> getMusicList() {
-        return musicService.getMusicList();
-    }
-    */
-
-   /* @GetMapping("/getBySongAndArtist/{songTitle}/{artistName}")
-    public Music getBySongTitleAndArtist(@RequestParam("songTitle") String songTitle,@RequestParam("artistName") String artistName)
-    {
-        return musicService.getBySongTitleAndArtistName(songTitle,artistName);
-    }*/
-
-   /* @GetMapping("/getBySongTitle/{songTitle}")
-    public Music getBySongTitle(@RequestParam("songTitle") String songTitle)
-    {
-        return musicService.getBySongTitle(songTitle);
-    }*/
 
 }

@@ -2,7 +2,8 @@ package com.tackroute.favoriteservice.service;
 
 import com.tackroute.favoriteservice.exception.FavoriteAlreadyExistException;
 import com.tackroute.favoriteservice.exception.FavoriteDoesNotExistException;
-import com.tackroute.favoriteservice.exception.FavoriteListDoesNotExistException;
+import com.tackroute.favoriteservice.exception.UserAlreadyExistsException;
+import com.tackroute.favoriteservice.exception.UserNotFoundException;
 import com.tackroute.favoriteservice.model.Favorite;
 import com.tackroute.favoriteservice.model.Song;
 import com.tackroute.favoriteservice.repository.MusicRepository;
@@ -24,56 +25,66 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public Favorite addToFavorite(Favorite favorite) throws FavoriteAlreadyExistException {
         Optional<Favorite> favoriteResult = musicRepository.findById(favorite.getEmail());
-        if(favoriteResult.isPresent()){
+        if (favoriteResult.isPresent()) {
             List<Song> newsList = favoriteResult.get().getSongs();
             boolean present = false;
-            for(Song song: newsList){
-                if(song.getSongTitle().equals(favorite.getSongs().get(0).getSongTitle())){
+            for (Song song : newsList) {
+                if (song.getSongTitle().equals(favorite.getSongs().get(0).getSongTitle())) {
                     present = true;
                 }
             }
-            if(present) throw new FavoriteAlreadyExistException();
+            if (present) throw new FavoriteAlreadyExistException();
             favoriteResult.get().getSongs().add(favorite.getSongs().get(0));
             return musicRepository.save(favoriteResult.get());
-        }else return musicRepository.save(favorite);
+        } else return musicRepository.save(favorite);
     }
 
     @Override
-    public Favorite removeFromFavorite(String email, String songTitle) throws FavoriteDoesNotExistException {
-        Optional<Favorite> favoriteResult=musicRepository.findById(email);
-        if(favoriteResult.isPresent())
-        {
+    public Optional<Favorite> getAllFavorites(String email) {
+        final Optional<Favorite> allFavorite = this.musicRepository.findById(email);
+        if (allFavorite.isPresent())
+            return allFavorite;
+        else
+            throw new UserNotFoundException();
+    }
 
+    @Override
+    public List<Song> deleteFavouriteByFavouriteId(String email, String favouriteId) throws FavoriteDoesNotExistException, UserNotFoundException {
+        Optional<Favorite> fav = getAllFavorites(email);
 
+        int index = 0;
+        boolean found = false;
+        if (fav != null) {
+            List<Song> details = fav.get().getSongs();
+            for (int i = 0; i < details.size(); i++) {
+                if (details.get(i).getFavoriteId().equals(favouriteId)) {
+                    index = i;
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                Song favdetail = details.get(index);
+                details.remove(index);
+                fav.get().setSongs(details);
+                musicRepository.save(fav.get());
+                return details;
+            } else {
+                throw new FavoriteDoesNotExistException("Favourite Not Found");
+            }
+        } else {
+            throw new UserNotFoundException("User Not Found");
         }
-
-        return null;
     }
 
     @Override
-    public List<Song> getFavoriteMusic(String email) throws FavoriteListDoesNotExistException {
-        return null;
+    public Favorite createFavoriteList(String email, Favorite favorite) throws UserAlreadyExistsException {
+        final Optional<Favorite> user = musicRepository.findById(email);
+        if (user.isPresent()) {
+            throw new UserAlreadyExistsException("User Already Exist");
+        } else {
+            return musicRepository.save(favorite);
+        }
     }
-
-
-
-
- /*   public Music saveMusic(Music music) {
-        return musicRepository.save(music);
-    }
-
-    public List<Music> getMusicList() {
-        return musicRepository.findAll();
-    }*/
-
-  /* public Music getBySongTitleAndArtistName(String songTitle,String artistName) {
-        return musicRepository.findBySongTitleAndArtistName(songTitle,artistName);
-    }*/
-
-   /* public Music getBySongTitle(String songTitle)
-    {
-        return musicRepository.findByTitle(songTitle);
-    }*/
-
 
 }
