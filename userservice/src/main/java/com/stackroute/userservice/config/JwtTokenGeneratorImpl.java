@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Map;
 @Service
 public class JwtTokenGeneratorImpl implements JwtTokenGenerator {
-    @Value("secret")
+    @Value("${jwt.secret.key}")
     private String secretKey;
 
 
