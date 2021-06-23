@@ -1,10 +1,10 @@
 import React from 'react'
 import './Footer.css'
-
-export default function () {
+ 
+export default function Footer() {
     return (
-        <div>
-            <h2 className="footer bg-info text-dark">EndLessMusic &copy; copyright</h2>
+        <div className="footer">
+            <h4>EndLessMusic &copy; copyright </h4>
         </div>
     )
 }

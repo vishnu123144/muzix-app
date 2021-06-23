@@ -1,3 +1,4 @@
+
 .input-group{
     border-radius: 10px;
 }
@@ -8,13 +9,14 @@
     color: cyan;
     padding-left: 10px;
 }
-
 .input-group-addon
 {
     padding-right: 20px;
 }
+
 #user
 {
+    
     border-radius: 10px;
 }
 #pass
@@ -25,18 +27,10 @@
 {
     border-radius: 10px;
 }
-#newPass
-{
-    border-radius: 10px;
-}
-#confirmPass
-{
-    border-radius: 10px;
-}
-.bt-2
+#btn
 {
     position: relative;
-    left: 25px;
+    left:170px;
 }
 h2{
     position: relative;
@@ -44,35 +38,10 @@ h2{
     font-weight: 700;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 40px;
+ 
 }
 .row
 {
     position: relative;
-    top: 30px;
+    top: 100px;
 }
-.span
-{
-    font-size: 28px;
-    color: brown;
-    padding-left: 30px;
-    padding-right: 20px;
-}
-.container-fluid
-{
-    text-align: center;
-}
-h3
-{
-    color: rgb(157, 88, 202);
-}
-/* .cc{
-    color:white;
-} */
-
-li{
-
-    position: relative;
-    right: 50px;
-    margin:  0  10px 0 10px;
-}
-

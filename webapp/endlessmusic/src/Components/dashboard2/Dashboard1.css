@@ -1,0 +1,41 @@
+.b
+{
+    /* background-image: url(https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+    background-size: 100vh;
+    background-repeat: no-repeat; */
+    background-color: gray;
+ 
+}
+
+.footer
+{
+    
+    /* position: relative;
+    bottom: 0; */
+    background-color: rgb(30, 33, 37);
+    text-align: center;
+    color:rgb(186, 17, 228);
+    width:100%;
+    padding: 10px;
+
+   
+}
+#footeredit
+{
+    position: fixed;
+    bottom: 0;
+}
+#backg{
+    background-image: url(https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: fit-content; 
+}
+.b1
+{
+    background-color:brown ;
+}
+
+
+
+    

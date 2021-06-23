@@ -1,3 +1,25 @@
-.header{
+.span
+{
+    font-size: 28px;
+    color: brown;
+    padding-left: 30px;
+    padding-right: 20px;
+}
+.container-fluid
+{
+    text-align: center;
+}
+h3
+{
+    color: rgb(157, 88, 202);
+}
+/* .cc{
     color:white;
+} */
+
+li{
+
+    position: relative;
+    right: 50px;
+    margin:  0  10px 0 10px;
 }

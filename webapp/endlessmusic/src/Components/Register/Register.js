@@ -1,48 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import './EditProfile.css'
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useHistory } from "react-router-dom";
+import "./Register.css";
+import { useState } from "react";
 
 
-export default function EditProfile() {
-    let uname;
-    let uemail;
-    let epass;
+export default function Register() {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const [username, setUsername] = useState(uname);
-    const [email, setEmail] = useState(uemail);
-    const [password, setPassword] = useState(epass);
-    // const [newPassword, setnewPassword] = useState('');
-    // const [confirmPassword, setconfirmPassword] = useState('');
+    let history=useHistory();
 
-
-    useEffect(() => {
-        fetch(`http://localhost:8084/user-service/api/v1/${email}`)
-            .then(res => res.json())
-            .then(data => {
-                uname = setUsername(data.username)
-                uemail = setEmail(data.email)
-                epass = setPassword(data.password)
-            });
-    }, [])
-
-    // function checkingPasswords()
-    // {
-    //     if()
-    // }
-    function EditContact() {
-        fetch(`http://localhost:8088/user-service/api/v1/${email}`, {
-            method: 'PUT',
+    function RegisterUserHandler() {
+        fetch('http://localhost:8088/user-service/api/v1/register', {
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+
             },
             body: JSON.stringify({ username, email, password })
         }).then(res => {
             if (res.status == 200) {
-                alert("Edited Succesfully")
+                // alert("Registered Succesfully")
+                history.push('/login');
+
+
             } else {
-                alert("USER NOT FOUND")
+                alert("Unsuceessfull")
             }
         });
+        ;
     }
     return (
         <div>
@@ -50,26 +37,26 @@ export default function EditProfile() {
                 <nav className="navbar navbar-expand-lg navbar-light bg-dark text-danger">
                     <span className="span"><h2 className="fas fa-headphones-alt"></h2></span>
                     <div className="container-fluid">
-                        <h3><Link to="/dashboard" style={{ textDecoration: 'none' }}>EndlessMusic</Link></h3>
-
-                        {/* <ul className="navbar-nav ml-auto offset-md-8">
-                            <li className="nav-item">
-                                <button className=" btn btn-outline-info">
-                                    <Link to="/dashboard" className="nav-link text-white">DashBoard</Link></button>
-                            </li>
-                        </ul> */}
-                        <h4 className="nav-item">
+                        <h3>EndlessMusic</h3>
+                        {/* <button><h3><i class="fas fa-user bg-light"></i></h3></button> */}
+                    </div>
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
                             <button className=" btn btn-outline-info">
                                 <Link to="/" className="nav-link text-white">HOME</Link></button>
-                        </h4>
-                    </div>
+                        </li>
+                        <li className="nav-item">
+                            <button className=" btn btn-outline-info">
+                                <Link to="/login" className="nav-link text-white">LOGIN</Link></button>
+                        </li>
+                    </ul>
                 </nav>
             </div>
 
             <div className="container">
                 <div className="row">
                     <div className="col-md-4 offset-md-4">
-                        <h2 className="text-center">Edit Profile</h2>
+                        <h2 className="text-center">Register Here</h2>
                         <div className="mb-4 mt-4 input-group">
                             <span className="input-group-addon"><i className="fas fa-user-alt fa-2x"></i></span>
                             <input id="user" type="text" onChange={(e) => setUsername(e.target.value)} value={username} className="form-control text-primary" placeholder="Username" />
@@ -82,16 +69,18 @@ export default function EditProfile() {
                             <span className="input-group-addon" > <i className="fas fa-key fa-2x" /></span>
                             <input id="pass" type="password" onChange={(e) => setPassword(e.target.value)} value={password} className="form-control text-primary" placeholder="Password" />
                         </div>
-                        <div className="bt-2 offset-md-4">
-                            <button onClick={EditContact} className="btn btn-success">Edit Changes</button>
+                        <div className="bt-2" id="btn">
+                            <button onClick={RegisterUserHandler} className="btn btn-success ">Register</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="footer">
-                <h4>EndLessMusic &copy; copyright </h4>
+            <div>
+                <div className="footer">
+                    <h4>EndLessMusic &copy; copyright </h4>
+                </div>
             </div>
         </div>
-    )
+    );
 }
